@@ -1,24 +1,41 @@
 import * as React from 'react';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Badge from '@material-ui/core/Badge';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import InputBase from '@material-ui/core/InputBase';
+import MailIcon from '@material-ui/icons/Mail';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Modal from '@material-ui/core/Modal';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import SearchIcon from '@material-ui/icons/Search';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { appName } from '../config';
+import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
+import { fade } from '@material-ui/core/styles/colorManipulator';
+
+import Login from '../components/login'
 // import CssBaseline from '@material-ui/core/CssBaseline';
 // import Toolbar from '@material-ui/core/Toolbar';
-import { fade } from '@material-ui/core/styles/colorManipulator';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
 // import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 // import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
+// function rand() {
+//     return Math.round(Math.random() * 20) - 10;
+// }
 
-import { appName } from '../config'
+// function getModalStyle() {
+//     const top = 30
+//     const left = 50
+
+//     return {
+//         top: `${top}%`,
+//         left: `${left}%`,
+//         transform: `translate(-${50}%, -${50}%)`,
+//     };
+// }
 const styles = (theme: Theme): object => createStyles({
     root: {
         width: '100%',
@@ -72,19 +89,32 @@ const styles = (theme: Theme): object => createStyles({
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
-            width: 200,
+            width: 120,
+            '&:focus': {
+                width: 200,
+            },
         },
     },
     sectionDesktop: {
         display: 'none',
         [theme.breakpoints.up('md')]: {
-            display: 'flex',
+            display: 'none',
         },
     },
     sectionMobile: {
         display: 'flex',
         [theme.breakpoints.up('md')]: {
             display: 'none',
+        },
+    },
+    paper: {
+        position: 'absolute',
+        width: theme.spacing.unit * 70,
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[0],
+        padding: theme.spacing.unit * 4,
+        '&:focus': {
+            outline: 'none'
         },
     },
 })
@@ -94,6 +124,7 @@ export interface IAppProps {
 }
 
 export interface IAppState {
+
 }
 
 
@@ -101,6 +132,11 @@ class Header extends React.Component<IAppProps, IAppState> {
     public state = {
         anchorEl: null,
         mobileMoreAnchorEl: null,
+        isLogin: false,
+        open: false,
+        a: {
+            b: false
+        }
     };
     constructor(props: IAppProps) {
         super(props);
@@ -122,6 +158,15 @@ class Header extends React.Component<IAppProps, IAppState> {
     public handleMobileMenuClose = () => {
         this.setState({ mobileMoreAnchorEl: null });
     };
+    public handleOpen = () => {
+        this.setState({ open: true });
+    };
+
+    public handleClose = () => {
+        this.setState({ open: false });
+    };
+
+
 
 
     public render() {
@@ -176,6 +221,17 @@ class Header extends React.Component<IAppProps, IAppState> {
             </Menu>
         );
 
+        const renderLoginModal = (
+            <Modal
+                open={ this.state.open }
+                onClose={ this.handleClose }
+            >
+                {/* <div style={ getModalStyle() } className={ classes.paper }> */}
+                    <Login />
+                {/* </div> */}
+            </Modal>
+        )
+
 
         return (
             <React.Fragment>
@@ -202,16 +258,17 @@ class Header extends React.Component<IAppProps, IAppState> {
                                 } }
                             />
                         </div>
+                        <Button onClick={ this.handleOpen } variant="outlined" color="inherit">Login</Button>
                         <div className={ classes.sectionDesktop }>
                             <IconButton color="inherit">
-                                <Badge badgeContent={ 4 } color="secondary">
-                                    <MailIcon />
-                                </Badge>
+                                {/* <Badge badgeContent={ 0 } color="secondary"> */ }
+                                <MailIcon />
+                                {/* </Badge> */ }
                             </IconButton>
                             <IconButton color="inherit">
-                                <Badge badgeContent={ 17 } color="secondary">
-                                    <NotificationsIcon />
-                                </Badge>
+                                {/* < Badge badgeContent={ 0 } color="secondary"> */ }
+                                <NotificationsIcon />
+                                {/* </Badge> */ }
                             </IconButton>
                             <IconButton
                                 aria-owns={ isMenuOpen ? 'material-appbar' : undefined }
@@ -231,6 +288,7 @@ class Header extends React.Component<IAppProps, IAppState> {
                     {/* </AppBar>  */ }
                     { renderMenu }
                     { renderMobileMenu }
+                    { renderLoginModal }
                 </div>
             </React.Fragment>
         );

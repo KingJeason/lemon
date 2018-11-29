@@ -22,6 +22,7 @@
     "@types/node": "^10.12.5",
     "@types/react": "^16.7.3",
     "@types/react-dom": "^16.0.9",
+    "egg-cors": "^2.1.1",
     "rxjs": "^6.3.3",
     "typescript": "^3.1.6"
   }

@@ -34,6 +34,10 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
+"@koa/cors@^2.2.2":
+  version "2.2.2"
+  resolved "http://registry.npm.taobao.org/@koa/cors/download/@koa/cors-2.2.2.tgz#9084ab7f58107734e6b19d602d99538eda73f2d0"
+
 "@material-ui/core@^3.4.0":
   version "3.4.0"
   resolved "http://registry.npm.taobao.org/@material-ui/core/download/@material-ui/core-3.4.0.tgz#b33c00a3c20e856ed7a4700dd398f128647beb4a"
@@ -2357,6 +2361,12 @@ ecc-jsbn@~0.1.1:
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
+
+egg-cors@^2.1.1:
+  version "2.1.1"
+  resolved "http://registry.npm.taobao.org/egg-cors/download/egg-cors-2.1.1.tgz#56a7f71f41369f2dfab78b387ea7c37d60490c33"
+  dependencies:
+    "@koa/cors" "^2.2.2"
 
 electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.30:
   version "1.3.84"

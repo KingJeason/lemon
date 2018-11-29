@@ -18,6 +18,8 @@
     "jsx-no-lambda": false,
     "no-empty-interface": false,
     "jsx-self-close": false,
-    "member-access": true
+    "member-access": true,
+    "max-classes-per-file": false,
+    "jsx-no-bind": false
   }
 }

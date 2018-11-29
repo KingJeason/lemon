@@ -20,7 +20,7 @@ export interface IAppProps {
 }
 
 export interface IAppState {
-    
+
 }
 
 class BasicLayout extends React.Component<IAppProps, IAppState> {
@@ -28,7 +28,6 @@ class BasicLayout extends React.Component<IAppProps, IAppState> {
         super(props);
 
         this.state = {
-
         }
     }
 
