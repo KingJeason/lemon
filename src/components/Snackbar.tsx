@@ -93,16 +93,16 @@ class MySnackbarContent extends React.Component<IMySnackbarContentProps> {
 const MySnackbarContentWrapper = withStyles(style1)(MySnackbarContent);
 
 function Mes(props: any = {}, type: any = 'success') {
-
-  const div = document.createElement('div');
-
-  document.body.appendChild(div);
   const close = (...args: any) => {
     const unmountResult = ReactDOM.unmountComponentAtNode(div);
     if (unmountResult && div.parentNode) {
       div.parentNode.removeChild(div);
     }
   }
+  const div = document.createElement('div');
+
+  document.body.appendChild(div);
+
   if (typeof props === 'string') {
     props = {
       message: props
@@ -116,8 +116,9 @@ function Mes(props: any = {}, type: any = 'success') {
         vertical: 'top',
         horizontal: 'center',
       },
+      autoHideDuration: 2000,
+      onClose: close,
       open: true,
-      autoHideDuration: 3000,
     },
     <MySnackbarContentWrapper
       variant={ type }

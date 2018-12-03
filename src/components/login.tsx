@@ -12,7 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
 import { login } from '../services/api';
-
+import Mes from './Snackbar'
 const styles = (theme: Theme): object => createStyles({
     main: {
         width: 'auto',
@@ -46,7 +46,8 @@ const styles = (theme: Theme): object => createStyles({
 });
 
 export interface ILoginProps {
-    classes: any
+    classes: any,
+    onClose: () => void
 }
 
 export interface ILoginState {
@@ -75,11 +76,13 @@ class Login extends React.Component<ILoginProps, ILoginState> {
     public submit = async (e) => {
         const { loginname, pass } = this.state
         e.preventDefault()
-        await login({
+        const res = await login({
             loginname,
             pass
         })
-
+        console.log(res)
+        Mes.success('欢迎来到柠檬~')
+        this.props.onClose()
     }
 
     public render() {

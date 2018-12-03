@@ -37,10 +37,10 @@ instance.interceptors.request.use((config) => {
 // 响应拦截器
 instance.interceptors.response.use(
     (response) => {
-        console.log(response)
-        mes.error('123')
+        // console.log(response)
+        // mes.error('123')
         // Do something with response data
-        return response;
+        return response.data;
     },
     (err) => {
         const { data } = err.response

@@ -226,9 +226,9 @@ class Header extends React.Component<IAppProps, IAppState> {
                 open={ this.state.open }
                 onClose={ this.handleClose }
             >
-                {/* <div style={ getModalStyle() } className={ classes.paper }> */}
-                    <Login />
-                {/* </div> */}
+                {/* <div style={ getModalStyle() } className={ classes.paper }> */ }
+                <Login onClose={ this.handleClose } />
+                {/* </div> */ }
             </Modal>
         )
 
