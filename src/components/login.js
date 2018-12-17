@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -10,10 +10,10 @@ import InputLabel from '@material-ui/core/InputLabel';
 import loginImgUrl from '../assets/imgs/lemon2.png';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@material-ui/core/styles';
 import { login } from '../services/api';
 import Mes from './Snackbar'
-const styles = (theme: Theme): object => createStyles({
+const styles = (theme) => createStyles({
     main: {
         width: 'auto',
         display: 'block', // Fix IE 11 issue.
@@ -45,18 +45,10 @@ const styles = (theme: Theme): object => createStyles({
     },
 });
 
-export interface ILoginProps {
-    classes: any,
-    onClose: () => void
-}
 
-export interface ILoginState {
-    loginname: string | null,
-    pass: string | null
-}
 
-class Login extends React.Component<ILoginProps, ILoginState> {
-    constructor(props: ILoginProps) {
+class Login extends React.Component {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -65,15 +57,15 @@ class Login extends React.Component<ILoginProps, ILoginState> {
         }
 
     }
-    public handleChangeLoginName = (e) => {
+    handleChangeLoginName = (e) => {
         this.setState({ loginname: e.target.value });
     }
 
-    public handleChangePass = (e) => {
+    handleChangePass = (e) => {
         // console.log(e.target.value)
         this.setState({ pass: e.target.value });
     }
-    public submit = async (e) => {
+    submit = async (e) => {
         const { loginname, pass } = this.state
         e.preventDefault()
         const res = await login({
@@ -85,7 +77,7 @@ class Login extends React.Component<ILoginProps, ILoginState> {
         this.props.onClose()
     }
 
-    public render() {
+    render () {
         const { classes } = this.props;
 
         return (

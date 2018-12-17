@@ -11,18 +11,18 @@ import InfoIcon from '@material-ui/icons/Info';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
-import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { withStyles, createStyles } from '@material-ui/core/styles';
 
 
 
-const variantIcon: object = {
+const variantIcon = {
   success: CheckCircleIcon,
   warning: WarningIcon,
   error: ErrorIcon,
   info: InfoIcon,
 };
 
-const style1 = (theme: Theme): object => createStyles({
+const style1 = (theme) => createStyles({
   success: {
     backgroundColor: green[600],
   },
@@ -48,17 +48,11 @@ const style1 = (theme: Theme): object => createStyles({
   },
 });
 
-export interface IMySnackbarContentProps {
-  classes?: any,
-  className?: string,
-  message?: any,
-  onClose?: any,
-  variant: 'success' | 'warning' | 'error' | 'info'
-}
 
-class MySnackbarContent extends React.Component<IMySnackbarContentProps> {
 
-  public render() {
+class MySnackbarContent extends React.Component {
+
+   render() {
     const { classes, className, message, onClose, variant, ...other } = this.props;
     console.log(this.props)
     const Icon = variantIcon[variant];
@@ -92,8 +86,8 @@ class MySnackbarContent extends React.Component<IMySnackbarContentProps> {
 
 const MySnackbarContentWrapper = withStyles(style1)(MySnackbarContent);
 
-function Mes(props: any = {}, type: any = 'success') {
-  const close = (...args: any) => {
+function Mes(props, type = 'success') {
+  const close = (...args) => {
     const unmountResult = ReactDOM.unmountComponentAtNode(div);
     if (unmountResult && div.parentNode) {
       div.parentNode.removeChild(div);

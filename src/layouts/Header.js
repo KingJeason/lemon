@@ -11,6 +11,7 @@ import Modal from '@material-ui/core/Modal';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
+import AddIcon from '@material-ui/icons/AddCircle';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { appName } from '../config';
@@ -18,25 +19,8 @@ import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 
 import Login from '../components/login'
-// import CssBaseline from '@material-ui/core/CssBaseline';
-// import Toolbar from '@material-ui/core/Toolbar';
-// import AppBar from '@material-ui/core/AppBar';
-// import MenuIcon from '@material-ui/icons/Menu';
-// function rand() {
-//     return Math.round(Math.random() * 20) - 10;
-// }
 
-// function getModalStyle() {
-//     const top = 30
-//     const left = 50
-
-//     return {
-//         top: `${top}%`,
-//         left: `${left}%`,
-//         transform: `translate(-${50}%, -${50}%)`,
-//     };
-// }
-const styles = (theme: Theme): object => createStyles({
+const styles = (theme) => createStyles({
     root: {
         width: '100%',
     },
@@ -66,6 +50,17 @@ const styles = (theme: Theme): object => createStyles({
         [theme.breakpoints.up('sm')]: {
             marginLeft: theme.spacing.unit * 3,
             width: 'auto',
+        },
+    },
+    add: {
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        marginLeft: theme.spacing.unit * 3,
+        width: 'auto',
+        marginRight: theme.spacing.unit * 2,
+        [theme.breakpoints.down('sm')]: {
+            display: 'none'
+
         },
     },
     searchIcon: {
@@ -119,17 +114,10 @@ const styles = (theme: Theme): object => createStyles({
     },
 })
 
-export interface IAppProps {
-    classes: any
-}
-
-export interface IAppState {
-
-}
 
 
-class Header extends React.Component<IAppProps, IAppState> {
-    public state = {
+class Header extends React.Component {
+    state = {
         anchorEl: null,
         mobileMoreAnchorEl: null,
         isLogin: false,
@@ -138,38 +126,38 @@ class Header extends React.Component<IAppProps, IAppState> {
             b: false
         }
     };
-    constructor(props: IAppProps) {
-        super(props);
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
-    public handleProfileMenuOpen = event => {
+    handleProfileMenuOpen = event => {
         this.setState({ anchorEl: event.currentTarget });
     };
 
-    public handleMenuClose = () => {
+    handleMenuClose = () => {
         this.setState({ anchorEl: null });
         this.handleMobileMenuClose();
     };
 
-    public handleMobileMenuOpen = event => {
+    handleMobileMenuOpen = event => {
         this.setState({ mobileMoreAnchorEl: event.currentTarget });
     };
 
-    public handleMobileMenuClose = () => {
+    handleMobileMenuClose = () => {
         this.setState({ mobileMoreAnchorEl: null });
     };
-    public handleOpen = () => {
+    handleOpen = () => {
         this.setState({ open: true });
     };
 
-    public handleClose = () => {
+    handleClose = () => {
         this.setState({ open: false });
     };
 
 
 
 
-    public render() {
+    render () {
         const { anchorEl, mobileMoreAnchorEl } = this.state;
         const { classes } = this.props;
         const isMenuOpen = Boolean(anchorEl);
@@ -246,6 +234,11 @@ class Header extends React.Component<IAppProps, IAppState> {
                         </Typography>
 
                         <div className={ classes.grow } />
+                        <div className={ classes.add }>
+                            <div className={ classes.searchIcon }>
+                                <AddIcon />
+                            </div>
+                        </div>
                         <div className={ classes.search }>
                             <div className={ classes.searchIcon }>
                                 <SearchIcon />

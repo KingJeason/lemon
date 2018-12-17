@@ -1,6 +1,6 @@
-export const appName: string = 'Lemon'
+export const appName = 'Lemon'
 
-export const theme: object = {
+export const theme = {
     "typography": {
         "useNextVariants": true,
     },

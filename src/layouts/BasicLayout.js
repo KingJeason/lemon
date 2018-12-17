@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
 import Header from './Header'
 
-const styles = (theme: Theme): object => createStyles({
+const styles = theme => createStyles({
     layout: {
         marginLeft: theme.spacing.unit * 3,
         marginRight: theme.spacing.unit * 3,
@@ -15,23 +15,19 @@ const styles = (theme: Theme): object => createStyles({
     },
 })
 
-export interface IAppProps {
-    classes: any
-}
-
 export interface IAppState {
 
 }
 
-class BasicLayout extends React.Component<IAppProps, IAppState> {
-    constructor(props: IAppProps) {
+class BasicLayout extends React.Component {
+    constructor(props) {
         super(props);
 
         this.state = {
         }
     }
 
-    public render() {
+    render () {
         const { classes } = this.props;
 
         return (
