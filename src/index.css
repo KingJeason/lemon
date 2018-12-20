@@ -13,15 +13,31 @@
   width: 50%;
   height: auto;
   overflow: auto;
+  box-sizing: border-box;
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+
   /* box-shadow: -10px 2px 6px 10px rgba(0, 0, 0, 0.4); */
 }
 
-.result-pane > div {
+.result-pane {
+  position: fixed;
+  top: 57px;
+  right: 0;
+  bottom: 0;
+  width: 50%;
+  height: auto;
+  border-top: 1px solid #ddd;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.result {
   position: fixed;
   top: 57px;
   right: 0;
   left: 50%;
-  bottom: 0;
+  bottom: 40px;
   overflow: auto;
   padding: 10px;
   padding-left: 20px;
@@ -39,8 +55,8 @@
   min-height: 500px;
 }
 
-
 .CodeMirror {
+  padding: 20px;
   position: absolute;
   top: 0;
   left: 0;
@@ -59,9 +75,9 @@ blockquote {
   color: #666;
   margin: 1em 0;
   border-left: 4px solid #ddd;
+
   /* padding-left: 3em; */
-  padding: 0 1em
-  /* border-left: 0.5em #eee solid; */
+  padding: 0 1em;
 }
 
 tr {

@@ -4,6 +4,7 @@ import Editor from '../../components/Edite/editor'
 import CodeBlock from '../../components/Edite/code-block'
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Header from './header'
+
 const initialSource = `
 
 `
@@ -39,11 +40,30 @@ const styles = (theme) => createStyles({
     },
 });
 
+const footerStyles = (theme) => createStyles({
+    footer: {
+        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+        borderTop: '1px solid #ddd',
+        width: '100%',
+        boxSizing: 'border-box',
+        height: 40,
+        position: 'absolute',
+        bottom: 0,
+
+    }
+})
+const EditorFooter = (props) => {
+    return (
+        <div className={ props.classes.footer }>
+            1
+        </div>
+    )
+}
+const EditorFooterWrapper = withStyles(footerStyles)(EditorFooter)
+
 class Draft extends React.PureComponent {
     constructor(props) {
         super(props)
-
-        this.handleControlsChange = this.handleControlsChange.bind(this)
         this.handleMarkdownChange = this.handleMarkdownChange.bind(this)
         this.state = {
             markdownSrc: initialSource,
@@ -55,16 +75,13 @@ class Draft extends React.PureComponent {
         this.setState({ markdownSrc: evt.target.value })
     }
 
-    handleControlsChange (mode) {
-        this.setState({ htmlMode: mode })
-    }
-
     render () {
         return (
             <div className="draft">
                 <Header />
                 <div className="editor-pane">
                     <Editor value={ this.state.markdownSrc } onChange={ this.handleMarkdownChange } />
+                    <EditorFooterWrapper />
                 </div>
 
                 <div className="result-pane">
@@ -73,6 +90,7 @@ class Draft extends React.PureComponent {
                         source={ this.state.markdownSrc }
                         renderers={ { code: CodeBlock } }
                     />
+                    <EditorFooterWrapper />
                 </div>
             </div>
         )

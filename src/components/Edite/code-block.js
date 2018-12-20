@@ -43,7 +43,7 @@ CodeBlock.defaultProps = {
 }
 
 CodeBlock.propTypes = {
-  value: PropTypes.string.isRequired,
+  // value: PropTypes.string.isRequired,
   language: PropTypes.string
 }
 
