@@ -11,8 +11,7 @@ import loginImgUrl from '../assets/imgs/lemon2.png';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, withStyles } from '@material-ui/core/styles';
-import { login } from '../services/api';
-import Mes from './Snackbar'
+
 const styles = (theme) => createStyles({
     main: {
         width: 'auto',
@@ -68,12 +67,7 @@ class Login extends React.Component {
     submit = async (e) => {
         const { loginname, pass } = this.state
         e.preventDefault()
-        const res = await login({
-            loginname,
-            pass
-        })
-        console.log(res)
-        Mes.success('欢迎来到柠檬~')
+        this.props.onSubmit(loginname, pass)
         this.props.onClose()
     }
 

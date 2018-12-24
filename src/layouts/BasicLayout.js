@@ -15,10 +15,6 @@ const styles = theme => createStyles({
     },
 })
 
-export interface IAppState {
-
-}
-
 class BasicLayout extends React.Component {
     constructor(props) {
         super(props);

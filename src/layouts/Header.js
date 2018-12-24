@@ -17,8 +17,10 @@ import Typography from '@material-ui/core/Typography';
 import { appName } from '../config';
 import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-
+import { login } from '../services/api';
+import Mes from '../components/Snackbar'
 import Login from '../components/login'
+import { observer } from 'mobx-react'
 
 const styles = (theme) => createStyles({
     root: {
@@ -115,7 +117,7 @@ const styles = (theme) => createStyles({
 })
 
 
-
+@observer
 class Header extends React.Component {
     state = {
         anchorEl: null,
@@ -154,7 +156,14 @@ class Header extends React.Component {
         this.setState({ open: false });
     };
 
-
+    handleSubmit = async (loginname, pass) => {
+        const res = await login({
+            loginname,
+            pass
+        })
+        console.log(res)
+        Mes.success('欢迎来到柠檬~')
+    }
 
 
     render () {
@@ -215,7 +224,8 @@ class Header extends React.Component {
                 onClose={ this.handleClose }
             >
                 {/* <div style={ getModalStyle() } className={ classes.paper }> */ }
-                <Login onClose={ this.handleClose } />
+
+                <Login onClose={ this.handleClose } onSubmit={ this.handleSubmit } />
                 {/* </div> */ }
             </Modal>
         )
