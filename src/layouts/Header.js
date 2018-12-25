@@ -20,8 +20,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import { login } from '../services/api';
 import Mes from '../components/Snackbar'
 import Login from '../components/login'
-import { observer } from 'mobx-react'
-
+import { connect } from 'react-redux'
 const styles = (theme) => createStyles({
     root: {
         width: '100%',
@@ -117,7 +116,6 @@ const styles = (theme) => createStyles({
 })
 
 
-@observer
 class Header extends React.Component {
     state = {
         anchorEl: null,
@@ -299,4 +297,4 @@ class Header extends React.Component {
 }
 
 // export default Header;
-export default withStyles(styles)(Header);
+export default connect(state=>state)(withStyles(styles)(Header));
