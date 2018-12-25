@@ -21,6 +21,7 @@ import { login } from '../services/api';
 import Mes from '../components/Snackbar'
 import Login from '../components/login'
 import { connect } from 'react-redux'
+import { addTodo } from '../store/actions'
 const styles = (theme) => createStyles({
     root: {
         width: '100%',
@@ -147,7 +148,10 @@ class Header extends React.Component {
         this.setState({ mobileMoreAnchorEl: null });
     };
     handleOpen = () => {
-        this.setState({ open: true });
+        // this.setState({ open: true });
+        this.props.dispatch({
+            type: 'add_user'
+        })
     };
 
     handleClose = () => {
@@ -297,4 +301,4 @@ class Header extends React.Component {
 }
 
 // export default Header;
-export default connect(state=>state)(withStyles(styles)(Header));
+export default connect(state => state)(withStyles(styles)(Header));

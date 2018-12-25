@@ -1,12 +1,16 @@
-import { combineReducers , createStore} from 'redux'
+import { combineReducers, createStore, applyMiddleware} from 'redux'
+import createSagaMiddleware from 'redux-saga'
+import rootSaga from './saga'
 import {
     ADD_TODO,
     TOGGLE_TODO,
 } from './actions'
+const sagaMiddleware = createSagaMiddleware()
 
-const userState = {}
+const userState = []
 const b = {}
 function user (state = userState, action) {
+    console.log('进入了', action, state)
     switch (action.type) {
         case ADD_TODO:
             return [
@@ -38,7 +42,8 @@ const allReducers = combineReducers({
     aa
 })
 
-const store = createStore(allReducers)
+const store = createStore(allReducers, applyMiddleware(sagaMiddleware))
 
+sagaMiddleware.run(rootSaga)
 
 export default store

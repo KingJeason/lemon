@@ -5,7 +5,6 @@ import './index.css';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import { theme } from './config/index'
 const userTheme = createMuiTheme(theme);
-
 ReactDOM.render(
     <MuiThemeProvider theme={ userTheme }>
         <App />
