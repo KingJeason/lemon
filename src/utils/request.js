@@ -37,17 +37,26 @@ instance.interceptors.request.use((config) => {
 // 响应拦截器
 instance.interceptors.response.use(
     (response) => {
-        // console.log(response)
+        // console.log(response, 'res')
         // mes.error('123')
         // Do something with response data
         return response.data;
     },
     (err) => {
-        const { data } = err.response
-        // console.log(err.response)
-        mes.error(data.error_msg)
-        // Do something with response error
-        return Promise.reject(err);
+        console.log(err, 'err')
+        if (err.response) {
+            switch (err.response.status) {
+                case 500:
+                    mes.error('服务器错误, 请联系wsyyxy@gmail.com')
+                    break;
+                default:
+                    break;
+            }
+            return Promise.reject(err);
+        } else {
+            mes.error('网络错误')
+            return Promise.reject('网络错误');
+        }
     });
 
 export default instance

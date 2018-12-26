@@ -15,13 +15,13 @@ import AddIcon from '@material-ui/icons/AddCircle';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { appName } from '../config';
-import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { login } from '../services/api';
-import Mes from '../components/Snackbar'
+// import { login } from '../services/api';
+// import Mes from '../components/Snackbar'
 import Login from '../components/login'
 import { connect } from 'react-redux'
-import { addTodo } from '../store/actions'
+// import { addTodo } from '../store/actions'
 const styles = (theme) => createStyles({
     root: {
         width: '100%',
@@ -148,10 +148,10 @@ class Header extends React.Component {
         this.setState({ mobileMoreAnchorEl: null });
     };
     handleOpen = () => {
-        // this.setState({ open: true });
-        this.props.dispatch({
-            type: 'add_user'
-        })
+        this.setState({ open: true });
+        // this.props.dispatch({
+        //     type: 'GET_USER'
+        // })
     };
 
     handleClose = () => {
@@ -159,12 +159,18 @@ class Header extends React.Component {
     };
 
     handleSubmit = async (loginname, pass) => {
-        const res = await login({
-            loginname,
-            pass
-        })
-        console.log(res)
-        Mes.success('欢迎来到柠檬~')
+        try {
+            this.props.dispatch({
+                type: 'LOGIN',
+                params:{
+                    loginname,
+                    pass
+                }
+            })
+        } catch (error) {
+            // Mes.error(error)
+        }
+
     }
 
 

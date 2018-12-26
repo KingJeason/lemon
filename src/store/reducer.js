@@ -1,26 +1,20 @@
 import { combineReducers, createStore, applyMiddleware} from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './saga'
-import {
-    ADD_TODO,
-    TOGGLE_TODO,
-} from './actions'
+// import {
+//     ADD_TODO,
+//     TOGGLE_TODO,
+// } from './actions'
 const sagaMiddleware = createSagaMiddleware()
 
-const userState = []
+const userState = null
 const b = {}
 function user (state = userState, action) {
     console.log('进入了', action, state)
     switch (action.type) {
-        case ADD_TODO:
-            return [
-                ...state,
-                {
-                    text: action.text,
-                    completed: false
-                }
-            ]
-        case TOGGLE_TODO:
+        case 'SET_USER':
+            return action.data
+        case 'TOGGLE_TODO':
             return state.map((todo, index) => {
                 if (index === action.index) {
                     return Object.assign({}, todo, {

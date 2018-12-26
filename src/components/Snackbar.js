@@ -54,7 +54,7 @@ class MySnackbarContent extends React.Component {
 
    render() {
     const { classes, className, message, onClose, variant, ...other } = this.props;
-    console.log(this.props)
+    // console.log(this.props)
     const Icon = variantIcon[variant];
     return (
       <SnackbarContent
@@ -134,7 +134,7 @@ Mes.info = (options) => {
   return Mes(options, 'info')
 }
 Mes.error = (options) => {
-  console.log('12312')
+  // console.log('12312')
   return Mes(options, 'error')
 }
 

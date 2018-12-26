@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, withStyles } from '@material-ui/core/styles';
 import Header from './Header'
 
 const styles = theme => createStyles({
