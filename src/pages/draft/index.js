@@ -4,6 +4,7 @@ import Editor from '../../components/Edite/editor'
 import CodeBlock from '../../components/Edite/code-block'
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Header from './header'
+import { connect } from 'react-redux'
 
 const initialSource = `
 
@@ -60,7 +61,7 @@ const EditorFooter = (props) => {
     )
 }
 const EditorFooterWrapper = withStyles(footerStyles)(EditorFooter)
-
+@connect(state=>state)
 class Draft extends React.PureComponent {
     constructor(props) {
         super(props)

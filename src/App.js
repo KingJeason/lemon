@@ -4,7 +4,6 @@ import Layout from './layouts/BasicLayout';
 import Draft from './pages/draft/index'
 import { Provider } from 'react-redux'
 import Cookies from 'js-cookie'
-import { connect } from 'react-redux'
 
 import store from './store/reducer'
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
@@ -13,9 +12,16 @@ import { withRouter } from "react-router";
 @withRouter
 class App extends Component {
   state = {
-    user: null
+    token: null
   }
   checkToken () {
+    const token = Cookies.get('token')
+    if (token) {
+      this.setState({ token })
+      store.dispatch({
+        type: 'GET_ME'
+      })
+    }
     // if (this.props.location.pathname != '/login') {
     //   if (!Cookies.get('JSESSIONID')) {
     //     this.props.history.replace('/login')
@@ -26,22 +32,24 @@ class App extends Component {
     //   }
     // }
   }
-  componentWillMount () {
-    this.setState({
-      user: store.getState().user
-    })
+  async componentWillMount () {
+    await this.checkToken()
+    // this.setState({
+    //   user: store.getState().user
+    // })
+    console.log(store.getState())
   }
   componentWillReceiveProps () {
     // this.checkToken()
   }
   render () {
-    const { user } = this.state
-    const AuthComponent = ({component: Component}, ...rest) => {
+    const { token } = this.state
+    const AuthComponent = ({ component: Component }, ...rest) => {
       return (
         <Route
           { ...rest }
           render={ props =>
-            user ? (
+            token ? (
               <Component { ...props } />
             ) : (
                 <Redirect
@@ -64,7 +72,7 @@ class App extends Component {
         </Switch>
       </Provider>
     );
-    }
   }
+}
 
-  export default App;
+export default App;

@@ -1,9 +1,9 @@
 import { delay,  } from 'redux-saga'
 import { put, takeEvery, call  } from 'redux-saga/effects'
-import { loginService } from '../services/api'
+import { loginService, getmeService } from '../services/api'
 import Mes from '../components/Snackbar'
 import Cookies from 'js-cookie'
-export function* login (data=1) {
+export function* login (data) {
     console.log(data,'data==')
     // yield delay(1000)
     const res = yield call(loginService, data.params)
@@ -15,6 +15,16 @@ export function* login (data=1) {
     })
 }
 
+export function* getMe(){
+    const res = yield call(getmeService)
+    Mes.success('欢迎来到柠檬~')
+    yield put({
+        type: 'SET_USER',
+        data: res.data
+    })
+}
+
 export default function* watchIncrementAsync () {
     yield takeEvery('LOGIN', login);
+    yield takeEvery('GET_ME', getMe);
 }

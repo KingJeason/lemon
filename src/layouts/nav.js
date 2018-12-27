@@ -32,7 +32,7 @@ class Nav extends React.Component {
         return (
             <Toolbar>
                 <nav>
-                    { navList.map(item => <NavLink activeStyle={ { color: 'black' } } to={ item.path } className={ classes.f }>{ item.name }</NavLink>) }
+                    { navList.map(item => <NavLink exact activeStyle={ { color: 'black' } } key={item.name} to={ item.path } className={ classes.f }>{ item.name }</NavLink>) }
                 </nav>
             </Toolbar>
         )

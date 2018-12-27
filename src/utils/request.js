@@ -1,6 +1,7 @@
 import axios from 'axios';
 // import Snackbar from '@material-ui/core/Snackbar';
 import mes from '../components/Snackbar'
+import Cookies from 'js-cookie'
 
 const instance = axios.create({
     baseURL: 'http://127.0.0.1:7001/api/v1',
@@ -27,6 +28,10 @@ const instance = axios.create({
 
 // 请求拦截器
 instance.interceptors.request.use((config) => {
+    const token = Cookies.get('token')
+    if(token){
+        config.headers.Authorization = 'Bearer ' + token
+    }
     // Do something before request is sent
     return config;
 }, (error) => {
