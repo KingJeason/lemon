@@ -13,7 +13,10 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/AddCircle';
 import Toolbar from '@material-ui/core/Toolbar';
+import Nav from './nav'
 import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
+import Grid from '@material-ui/core/Grid';
 import { appName } from '../config';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
@@ -21,6 +24,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 // import Mes from '../components/Snackbar'
 import Login from '../components/login'
 import { connect } from 'react-redux'
+import lemonPng from '../assets/imgs/lemon.png'
 // import { addTodo } from '../store/actions'
 const styles = (theme) => createStyles({
     root: {
@@ -38,6 +42,10 @@ const styles = (theme) => createStyles({
         [theme.breakpoints.up('sm')]: {
             display: 'block',
         },
+    },
+    avatar: {
+        margin: 10,
+        cursor: 'pointer'
     },
     search: {
         position: 'relative',
@@ -123,9 +131,7 @@ class Header extends React.Component {
         mobileMoreAnchorEl: null,
         isLogin: false,
         open: false,
-        a: {
-            b: false
-        }
+        anchorElLogin: null
     };
     // constructor(props) {
     //     super(props);
@@ -162,7 +168,7 @@ class Header extends React.Component {
         try {
             this.props.dispatch({
                 type: 'LOGIN',
-                params:{
+                params: {
                     loginname,
                     pass
                 }
@@ -172,11 +178,16 @@ class Header extends React.Component {
         }
 
     }
-
+    handleCloseLoginMenu = () => {
+        this.setState({ anchorElLogin: null });
+    }
+    handleClickLoginMenu = event => {
+        this.setState({ anchorElLogin: event.currentTarget });
+    }
 
     render () {
-        const { anchorEl, mobileMoreAnchorEl } = this.state;
-        const { classes } = this.props;
+        const { anchorEl, mobileMoreAnchorEl, anchorElLogin } = this.state;
+        const { classes, user } = this.props;
         const isMenuOpen = Boolean(anchorEl);
         const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -192,6 +203,24 @@ class Header extends React.Component {
                 <MenuItem onClick={ this.handleMenuClose }>My account</MenuItem>
             </Menu>
         );
+
+        const loginMenu = (
+            <div>
+                <Avatar onClick={ this.handleClickLoginMenu } alt="Remy Sharp" src={ user && user.avatar } className={ classes.avatar } />
+                <Menu
+                    id="fade-menu"
+                    anchorEl={ anchorElLogin }
+                    open={ Boolean(anchorElLogin) }
+                    onClose={ this.handleCloseLoginMenu }
+                >
+                    <MenuItem onClick={ this.handleCloseLoginMenu }>Profile</MenuItem>
+                    <MenuItem onClick={ this.handleCloseLoginMenu }>My account</MenuItem>
+                    <MenuItem onClick={ this.handleCloseLoginMenu }>Logout</MenuItem>
+                </Menu>
+            </div>
+        )
+
+        const renderLogin = user ? loginMenu : (<Button onClick={ this.handleOpen } variant="outlined" color="inherit">Login</Button>)
 
         const renderMobileMenu = (
             <Menu
@@ -231,10 +260,8 @@ class Header extends React.Component {
                 open={ this.state.open }
                 onClose={ this.handleClose }
             >
-                {/* <div style={ getModalStyle() } className={ classes.paper }> */ }
 
                 <Login onClose={ this.handleClose } onSubmit={ this.handleSubmit } />
-                {/* </div> */ }
             </Modal>
         )
 
@@ -247,10 +274,10 @@ class Header extends React.Component {
                         {/* <IconButton className={ classes.menuButton } color="inherit" aria-label="Open drawer">
                             <MenuIcon />
                         </IconButton> */}
-                        <Typography className={ classes.title } variant="h6" color="inherit" noWrap={ true }>
+                        {/* <Typography className={ classes.title } variant="h6" color="inherit" noWrap={ true }>
                             { appName }
-                        </Typography>
-
+                        </Typography> */}
+                        <img src={ lemonPng } alt="lemon" style={{width: '120px'}}/>
                         <div className={ classes.grow } />
                         <div className={ classes.add }>
                             <div className={ classes.searchIcon }>
@@ -269,7 +296,7 @@ class Header extends React.Component {
                                 } }
                             />
                         </div>
-                        <Button onClick={ this.handleOpen } variant="outlined" color="inherit">Login</Button>
+                        { renderLogin }
                         <div className={ classes.sectionDesktop }>
                             <IconButton color="inherit">
                                 {/* <Badge badgeContent={ 0 } color="secondary"> */ }
@@ -297,14 +324,15 @@ class Header extends React.Component {
                         </div>
                     </Toolbar>
                     {/* </AppBar>  */ }
+                    <Nav/>
                     { renderMenu }
                     { renderMobileMenu }
                     { renderLoginModal }
                 </div>
-            </React.Fragment>
+            </React.Fragment >
         );
     }
 }
 
 // export default Header;
-export default connect(state => state)(withStyles(styles)(Header));
+export default connect(state => { return { user: state.user } })(withStyles(styles)(Header));

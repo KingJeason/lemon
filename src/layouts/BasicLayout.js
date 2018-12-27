@@ -1,7 +1,8 @@
 import React from 'react';
 import { createStyles, withStyles } from '@material-ui/core/styles';
-import Header from './Header'
+import { BrowserRouter as Switch, Route, Link, Router } from "react-router-dom";
 
+import Header from './Header'
 const styles = theme => createStyles({
     layout: {
         marginLeft: theme.spacing.unit * 3,
@@ -14,7 +15,6 @@ const styles = theme => createStyles({
         },
     },
 })
-
 class BasicLayout extends React.Component {
     constructor(props) {
         super(props);
@@ -25,11 +25,27 @@ class BasicLayout extends React.Component {
 
     render () {
         const { classes } = this.props;
+        function Home () {
+            return (
+                <div>
+                    <h2>Home</h2>
+                </div>
+            );
+        }
 
+        function About () {
+            return (
+                <div>
+                    <h2>About</h2>
+                </div>
+            );
+        }
         return (
             <React.Fragment>
                 <div className={ classes.layout }>
                     <Header />
+                    <Route path="/" exact component={ Home } />
+                    <Route path="/chat" exact component={ About } />
                 </div>
             </React.Fragment>
         );
