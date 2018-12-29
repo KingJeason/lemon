@@ -5,6 +5,8 @@ import CodeBlock from '../../components/Edite/code-block'
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Header from './header'
 import { connect } from 'react-redux'
+import { withRouter } from "react-router";
+
 
 const initialSource = `
 
@@ -61,7 +63,8 @@ const EditorFooter = (props) => {
     )
 }
 const EditorFooterWrapper = withStyles(footerStyles)(EditorFooter)
-@connect(state=>state)
+@withRouter
+@connect(state => state)
 class Draft extends React.PureComponent {
     constructor(props) {
         super(props)
@@ -74,8 +77,21 @@ class Draft extends React.PureComponent {
 
     handleMarkdownChange (evt) {
         this.setState({ markdownSrc: evt.target.value })
+        this.props.dispatch({
+            type: 'CREATE_DRAFTS',
+            body: {
+                markdown: evt.target.value,
+                previewImage: '',
+                title: '',
+                type: 'markdown'
+            }
+        })
     }
+    componentDidMount () {
+        const { match } = this.props
+        console.log('match===', match.params)
 
+    }
     render () {
         return (
             <div className="draft">

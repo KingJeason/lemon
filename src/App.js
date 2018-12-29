@@ -66,7 +66,8 @@ class App extends Component {
     return (
       <Provider store={ store }>
         <Switch>
-          <AuthComponent path="/drafts"
+
+          <AuthComponent path="/drafts/:id" exact
             component={ Draft } />
           <Route path="/" component={ Layout } />
         </Switch>
