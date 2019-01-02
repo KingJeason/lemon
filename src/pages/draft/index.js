@@ -71,20 +71,30 @@ class Draft extends React.PureComponent {
         this.handleMarkdownChange = this.handleMarkdownChange.bind(this)
         this.state = {
             markdownSrc: initialSource,
-            htmlMode: 'raw'
+            htmlMode: 'raw',
+            title: ''
         }
     }
-
-    handleMarkdownChange (evt) {
-        // '/drafts/123123'.split('/') ==> ["", "drafts", "123123"]
+    changeTitle = async(title) => {
+        console.log(title, '传入的title')
+        // await this.setState({
+        //     title
+        // })
+        this.setState({...this.state, title}, ()=>{
+            console.log(this.state.title)
+            this.updateDrafts()
+        })
+    }
+    updateDrafts = () => {
         const { pathname } = window.location
+        const { title, markdownSrc } = this.state
+        // '/drafts/123123'.split('/') ==> ["", "drafts", "123123"]
         const id = pathname.split('/')[2]
-        this.setState({ markdownSrc: evt.target.value })
         const body = {
-            markdown: evt.target.value,
+            markdown: markdownSrc,
             previewImage: '',
-            title: '',
-            type: 'markdown'
+            type: 'markdown',
+            title,
         }
         if (id !== 'new') {
             this.props.dispatch({
@@ -92,31 +102,35 @@ class Draft extends React.PureComponent {
                 id,
                 body
             })
+
         } else {
-            console.log(id)
             this.props.dispatch({
                 type: 'CREATE_DRAFTS',
                 body
             })
         }
-
+    }
+     handleMarkdownChange (evt) {
+        this.setState({ markdownSrc: evt.target.value })
+        this.updateDrafts()
     }
     async componentDidMount () {
         const { match: { params } } = this.props
         if (params.id !== 'new') {
             const res = await showDraftsService(params.id)
-            console.log(res, 'res')
+            const {markdown, title} = res.data
             this.setState({
-                markdownSrc: res.data.markdown
+                markdownSrc: markdown,
+                title
             })
         }
-
-
     }
     render () {
+        const { isRequesting } = this.props.draft
+
         return (
             <div className="draft">
-                <Header />
+                <Header title={this.state.title} isRequesting={ isRequesting } changeTitle={ this.changeTitle } />
                 <div className="editor-pane">
                     <Editor value={ this.state.markdownSrc } onChange={ this.handleMarkdownChange } />
                     <EditorFooterWrapper />

@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 // import { visible } from 'ansi-colors';
 
@@ -25,20 +26,40 @@ const styles = (theme) => createStyles({
         boxSizing: 'border-box',
         overflow: 'visible',
         border: 'none'
+    },
+    rightbox: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
+    },
+    button: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        color: '#ddd',
+        padding: '4px 8px',
+        fontSize: 18
     }
 })
 
 class DraftHeader extends React.Component {
-
+    changeTitle = (e) => {
+        this.props.changeTitle(e.target.value)
+    }
     render () {
-        const { classes } = this.props;
-
+        const { classes, isRequesting } = this.props;
         return (
             <div className={ classes.header }>
-                {/* <div className={ classes.leftbox }> */}
-                    <input className={classes.input} maxLength="80" placeholder="输入文章标题..."></input>
-                {/* </div> */}
-                <div className={ classes.rightbox }></div>
+                {/* <div className={ classes.leftbox }> */ }
+                <input value={this.props.title} onChange={ this.changeTitle } className={ classes.input } maxLength="80" placeholder="输入文章标题..."></input>
+                {/* </div> */ }
+                <div className={ classes.rightbox }>
+                    <span style={ { color: '#ddd', fontSize: 18 } }>
+                        { isRequesting ? '保存中...' : '文章将会自动保存至' }
+                    </span>
+                    <Button variant="outlined" className={ classes.button }>
+                        草稿箱
+                    </Button>
+                </div>
             </div>
         )
     }

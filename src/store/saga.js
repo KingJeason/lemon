@@ -26,16 +26,32 @@ export function* getMe () {
 }
 
 export function* createDrafts (data) {
+    yield put({
+        type: 'SET_DRAFT_REQUEST_FLAG',
+        data: true
+    })
     yield delay(500)
     const res = yield call(createDraftsService, data.body)
+    yield put({
+        type: 'SET_DRAFT_REQUEST_FLAG',
+        data: false
+    })
     console.log(res)
     var stateObj = { draftsId: res.data._id };
     window.history.pushState(stateObj, "page 2", res.data._id);
 }
 export function* updateDrafts(data){
-    console.log(data,'data')
-    yield delay(500)
+    yield put({
+        type: 'SET_DRAFT_REQUEST_FLAG',
+        data: true
+    })
+      delay(500)
+    
     yield call(updateDraftsService,data.id, data.body)
+    yield put({
+        type: 'SET_DRAFT_REQUEST_FLAG',
+        data: false
+    })
 }
 export default function* watchIncrementAsync () {
     yield takeEvery('LOGIN', login);

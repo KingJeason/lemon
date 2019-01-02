@@ -1,4 +1,4 @@
-import { combineReducers, createStore, applyMiddleware} from 'redux'
+import { combineReducers, createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './saga'
 // import {
@@ -8,31 +8,32 @@ import rootSaga from './saga'
 const sagaMiddleware = createSagaMiddleware()
 
 const userState = null
-const b = {}
+const draftState = {
+    isRequesting: false
+}
 function user (state = userState, action) {
     switch (action.type) {
         case 'SET_USER':
             return action.data
-        case 'TOGGLE_TODO':
-            return state.map((todo, index) => {
-                if (index === action.index) {
-                    return Object.assign({}, todo, {
-                        completed: !todo.completed
-                    })
-                }
-                return todo
-            })
         default:
             return state
     }
 }
-function aa (state = b, action){
-    return b
+function draft (state = draftState, action) {
+    switch (action.type) {
+        case 'SET_DRAFT_REQUEST_FLAG':
+            return {
+                ...state,
+                isRequesting: action.data
+            }
+        default:
+        return state
+    }
 }
 
 const allReducers = combineReducers({
     user,
-    aa
+    draft
 })
 
 const store = createStore(allReducers, applyMiddleware(sagaMiddleware))
