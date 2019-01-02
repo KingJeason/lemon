@@ -27,6 +27,9 @@ import { connect } from 'react-redux'
 import lemonPng from '../assets/imgs/lemon.png'
 // import { addTodo } from '../store/actions'
 const styles = (theme) => createStyles({
+    header:{
+        // boxShadow: '0 4px 12px 0 rgba(0, 0, 0, 0.05)'
+    },
     root: {
         width: '100%',
     },
@@ -187,7 +190,7 @@ class Header extends React.Component {
 
     render () {
         const { anchorEl, mobileMoreAnchorEl, anchorElLogin } = this.state;
-        const { classes, user } = this.props;
+        const { classes, user, isNav } = this.props;
         const isMenuOpen = Boolean(anchorEl);
         const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -270,7 +273,7 @@ class Header extends React.Component {
             <React.Fragment>
                 <div className={ classes.root }>
                     {/* <AppBar position="static" color="default"> */ }
-                    <Toolbar>
+                    <Toolbar className={classes.header}>
                         {/* <IconButton className={ classes.menuButton } color="inherit" aria-label="Open drawer">
                             <MenuIcon />
                         </IconButton> */}
@@ -324,7 +327,7 @@ class Header extends React.Component {
                         </div>
                     </Toolbar>
                     {/* </AppBar>  */ }
-                    <Nav/>
+                    { isNav ? <Nav /> : ''}
                     { renderMenu }
                     { renderMobileMenu }
                     { renderLoginModal }

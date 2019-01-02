@@ -12,3 +12,6 @@ export async function showDraftsService (id) {
     return request.get(`/drafts/${id}`)
 }
 
+export async function indexDraftsService (id) {
+    return request.get(`/drafts`)
+}

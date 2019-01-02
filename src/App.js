@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Layout from './layouts/BasicLayout';
 import Draft from './pages/draft/index'
+import DraftList from './pages/draft-list/index'
 import { Provider } from 'react-redux'
 import Cookies from 'js-cookie'
 
@@ -22,21 +23,9 @@ class App extends Component {
         type: 'GET_ME'
       })
     }
-    // if (this.props.location.pathname != '/login') {
-    //   if (!Cookies.get('JSESSIONID')) {
-    //     this.props.history.replace('/login')
-    //   }
-    // } else {
-    //   if (Cookies.get('JSESSIONID')) {
-    //     this.props.history.replace('/home')
-    //   }
-    // }
   }
   async componentWillMount () {
     await this.checkToken()
-    // this.setState({
-    //   user: store.getState().user
-    // })
   }
   componentWillReceiveProps () {
     // this.checkToken()
@@ -68,6 +57,8 @@ class App extends Component {
 
           <AuthComponent path="/drafts/:id" exact
             component={ Draft } />
+          <AuthComponent path="/drafts" exact
+            component={ DraftList } />
           <Route path="/" component={ Layout } />
         </Switch>
       </Provider>
