@@ -10,7 +10,6 @@ const sagaMiddleware = createSagaMiddleware()
 const userState = null
 const b = {}
 function user (state = userState, action) {
-    console.log('进入了', action, state)
     switch (action.type) {
         case 'SET_USER':
             return action.data

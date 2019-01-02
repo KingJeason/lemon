@@ -48,7 +48,6 @@ instance.interceptors.response.use(
         return response.data;
     },
     (err) => {
-        console.log(err, 'err')
         if (err.response) {
             switch (err.response.status) {
                 case 500:

@@ -37,14 +37,13 @@ class App extends Component {
     // this.setState({
     //   user: store.getState().user
     // })
-    console.log(store.getState())
   }
   componentWillReceiveProps () {
     // this.checkToken()
   }
   render () {
     const { token } = this.state
-    const AuthComponent = ({ component: Component }, ...rest) => {
+    const AuthComponent = ({ component: Component, ...rest} ) => {
       return (
         <Route
           { ...rest }

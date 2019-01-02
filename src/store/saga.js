@@ -1,7 +1,7 @@
 import { delay, } from 'redux-saga'
 import { put, takeEvery, call, takeLatest } from 'redux-saga/effects'
 import { loginService, getmeService } from '../services/api'
-import { createDraftsService } from '../services/drafts'
+import { createDraftsService, updateDraftsService } from '../services/drafts'
 import Mes from '../components/Snackbar'
 import Cookies from 'js-cookie'
 export function* login (data) {
@@ -29,9 +29,17 @@ export function* createDrafts (data) {
     yield delay(500)
     const res = yield call(createDraftsService, data.body)
     console.log(res)
+    var stateObj = { draftsId: res.data._id };
+    window.history.pushState(stateObj, "page 2", res.data._id);
+}
+export function* updateDrafts(data){
+    console.log(data,'data')
+    yield delay(500)
+    yield call(updateDraftsService,data.id, data.body)
 }
 export default function* watchIncrementAsync () {
     yield takeEvery('LOGIN', login);
     yield takeEvery('GET_ME', getMe);
     yield takeLatest('CREATE_DRAFTS', createDrafts)
+    yield takeLatest('UPDATE_DRAFTS', updateDrafts)
 }

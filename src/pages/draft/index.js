@@ -6,7 +6,7 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import Header from './header'
 import { connect } from 'react-redux'
 import { withRouter } from "react-router";
-
+import { showDraftsService } from '../../services/drafts'
 
 const initialSource = `
 
@@ -76,20 +76,41 @@ class Draft extends React.PureComponent {
     }
 
     handleMarkdownChange (evt) {
+        // '/drafts/123123'.split('/') ==> ["", "drafts", "123123"]
+        const { pathname } = window.location
+        const id = pathname.split('/')[2]
         this.setState({ markdownSrc: evt.target.value })
-        this.props.dispatch({
-            type: 'CREATE_DRAFTS',
-            body: {
-                markdown: evt.target.value,
-                previewImage: '',
-                title: '',
-                type: 'markdown'
-            }
-        })
+        const body = {
+            markdown: evt.target.value,
+            previewImage: '',
+            title: '',
+            type: 'markdown'
+        }
+        if (id !== 'new') {
+            this.props.dispatch({
+                type: 'UPDATE_DRAFTS',
+                id,
+                body
+            })
+        } else {
+            console.log(id)
+            this.props.dispatch({
+                type: 'CREATE_DRAFTS',
+                body
+            })
+        }
+
     }
-    componentDidMount () {
-        const { match } = this.props
-        console.log('match===', match.params)
+    async componentDidMount () {
+        const { match: { params } } = this.props
+        if (params.id !== 'new') {
+            const res = await showDraftsService(params.id)
+            console.log(res, 'res')
+            this.setState({
+                markdownSrc: res.data.markdown
+            })
+        }
+
 
     }
     render () {
