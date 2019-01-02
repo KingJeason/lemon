@@ -8,21 +8,9 @@ import moment from 'moment'
 
 import { createStyles, withStyles } from '@material-ui/core/styles';
 const styles = (theme) => createStyles({
-    layout: {
-        marginLeft: theme.spacing.unit * 3,
-        marginRight: theme.spacing.unit * 3,
-        width: 'auto',
-        [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            width: 1100,
-        },
-        // color: 'red'
-    },
-    shadow: {
-        boxShadow: '0 4px 12px 0 rgba(0, 0, 0, 0.05)'
+    listItemText: {
+        fontSize: '1.35rem'
     }
-
 });
 
 
@@ -37,19 +25,17 @@ class DraftListItem extends React.PureComponent {
     async componentDidMount () {
 
     }
-    clickItem = () =>{
-       this.props.clickItem(this.props.draft)
+    clickItem = () => {
+        this.props.clickItem(this.props.draft)
     }
-    deleteItem = ()=>{
+    deleteItem = () => {
         this.props.deleteItem(this.props.draft)
     }
     render () {
         const { classes, draft } = this.props
-        console.log(classes.layout)
-
         return (
-            <ListItem button divider  onClick={this.clickItem}>
-                <ListItemText primary={ !draft.title ? '未命名' : draft.title } secondary={ moment(draft.updatedAt).format('YYYY-MM-DD ') } />
+            <ListItem button divider onClick={ this.clickItem } >
+                <ListItemText classes={ { primary: classes.listItemText } } primary={ !draft.title ? '未命名' : draft.title } secondary={ moment(draft.updatedAt).format('YYYY-MM-DD ') } />
                 <ListItemSecondaryAction>
                     <IconButton aria-label="Delete" onClick={ this.deleteItem }>
                         <DeleteIcon />

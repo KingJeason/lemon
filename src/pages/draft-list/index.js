@@ -47,7 +47,7 @@ class DraftList extends React.PureComponent {
     }
 
     routerToDraft = (draft) => {
-        console.log('router', draft)
+        this.props.history.push('/drafts/' + draft._id)
     }
 
     deleteDraft = (draft) => {
