@@ -15,3 +15,7 @@ export async function showDraftsService (id) {
 export async function indexDraftsService (id) {
     return request.get(`/drafts`)
 }
+
+export async function destroyDraftsService (id) {
+    return request.delete(`/drafts/${id}`)
+}

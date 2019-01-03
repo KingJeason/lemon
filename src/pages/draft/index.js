@@ -7,7 +7,6 @@ import Header from './header'
 import { connect } from 'react-redux'
 import { withRouter } from "react-router";
 import { showDraftsService } from '../../services/drafts'
-
 const initialSource = `
 
 `

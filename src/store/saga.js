@@ -45,7 +45,7 @@ export function* updateDrafts(data){
         type: 'SET_DRAFT_REQUEST_FLAG',
         data: true
     })
-      delay(500)
+    yield delay(500)
     
     yield call(updateDraftsService,data.id, data.body)
     yield put({

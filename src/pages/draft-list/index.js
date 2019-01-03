@@ -3,10 +3,11 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
-import { indexDraftsService } from '../../services/drafts'
+import { indexDraftsService, destroyDraftsService } from '../../services/drafts'
 import Header from '../../layouts/Header'
 import List from '@material-ui/core/List';
 import DraftListItem from './list-item'
+import Mes from '../../components/Snackbar'
 
 const styles = (theme) => createStyles({
     layout: {
@@ -50,8 +51,13 @@ class DraftList extends React.PureComponent {
         this.props.history.push('/drafts/' + draft._id)
     }
 
-    deleteDraft = (draft) => {
-        console.log('delete', draft)
+    deleteDraft = async (draft) => {
+        console.log('删除的draft_id', draft._id)
+        const res = await destroyDraftsService(draft._id)
+        Mes.success('删除成功~')
+        this.setState({
+            data: this.state.data.filter((item)=>  item._id !== res.data._id)
+        })
     }
 
     render () {
