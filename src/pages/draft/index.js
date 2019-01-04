@@ -3,6 +3,9 @@ import Markdown from 'react-markdown'
 import Editor from '../../components/Edite/editor'
 import CodeBlock from '../../components/Edite/code-block'
 import { createStyles, withStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+
+import AddPhotoAlternate from '@material-ui/icons/AddPhotoAlternate'
 import Header from './header'
 import { connect } from 'react-redux'
 import { withRouter } from "react-router";
@@ -44,20 +47,36 @@ const styles = (theme) => createStyles({
 
 const footerStyles = (theme) => createStyles({
     footer: {
-        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+        paddingLeft: ` ${theme.spacing.unit * 2}px `,
         borderTop: '1px solid #ddd',
         width: '100%',
         boxSizing: 'border-box',
         height: 40,
         position: 'absolute',
         bottom: 0,
-
-    }
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
+    button: {
+        // margin: theme.spacing.unit,
+        cursor: 'pointer'
+    },
+    input: {
+        display: 'none',
+    },
 })
 const EditorFooter = (props) => {
+    const { classes } = props;
     return (
         <div className={ props.classes.footer }>
-            1
+            <input accept="image/*" className={ classes.input } id="icon-button-file" 
+             type="file" />
+            <label htmlFor="icon-button-file">
+                {/* <IconButton  component="span"> */ }
+                <AddPhotoAlternate className={ classes.button } />
+                {/* </IconButton> */ }
+            </label>
         </div>
     )
 }
@@ -74,12 +93,12 @@ class Draft extends React.PureComponent {
             title: ''
         }
     }
-    changeTitle = async(title) => {
+    changeTitle = async (title) => {
         console.log(title, '传入的title')
         // await this.setState({
         //     title
         // })
-        this.setState({...this.state, title}, ()=>{
+        this.setState({ ...this.state, title }, () => {
             console.log(this.state.title)
             this.updateDrafts()
         })
@@ -109,7 +128,7 @@ class Draft extends React.PureComponent {
             })
         }
     }
-     handleMarkdownChange (evt) {
+    handleMarkdownChange (evt) {
         this.setState({ markdownSrc: evt.target.value })
         this.updateDrafts()
     }
@@ -117,7 +136,7 @@ class Draft extends React.PureComponent {
         const { match: { params } } = this.props
         if (params.id !== 'new') {
             const res = await showDraftsService(params.id)
-            const {markdown, title} = res.data
+            const { markdown, title } = res.data
             this.setState({
                 markdownSrc: markdown,
                 title
@@ -129,7 +148,7 @@ class Draft extends React.PureComponent {
 
         return (
             <div className="draft">
-                <Header title={this.state.title} isRequesting={ isRequesting } changeTitle={ this.changeTitle } />
+                <Header title={ this.state.title } isRequesting={ isRequesting } changeTitle={ this.changeTitle } />
                 <div className="editor-pane">
                     <Editor value={ this.state.markdownSrc } onChange={ this.handleMarkdownChange } />
                     <EditorFooterWrapper />
