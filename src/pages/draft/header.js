@@ -38,6 +38,10 @@ const styles = (theme) => createStyles({
         color: '#ddd',
         padding: '4px 8px',
         fontSize: 18
+    },
+    go:{
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
     }
 })
 
@@ -50,7 +54,7 @@ class DraftHeader extends React.Component {
         return (
             <div className={ classes.header }>
                 {/* <div className={ classes.leftbox }> */ }
-                <input value={this.props.title} onChange={ this.changeTitle } className={ classes.input } maxLength="80" placeholder="输入文章标题..."></input>
+                <input value={ this.props.title } onChange={ this.changeTitle } className={ classes.input } maxLength="80" placeholder="输入文章标题..."></input>
                 {/* </div> */ }
                 <div className={ classes.rightbox }>
                     <span style={ { color: '#ddd', fontSize: 18 } }>
@@ -59,6 +63,9 @@ class DraftHeader extends React.Component {
                     <Button variant="outlined" className={ classes.button }>
                         草稿箱
                     </Button>
+                    <Button variant="contained" color="primary" className={ classes.go }>
+                        发布
+                     </Button>
                 </div>
             </div>
         )

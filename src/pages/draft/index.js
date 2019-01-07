@@ -3,6 +3,7 @@ import Markdown from 'react-markdown'
 import Editor from '../../components/Edite/editor'
 import CodeBlock from '../../components/Edite/code-block'
 import { createStyles, withStyles } from '@material-ui/core/styles';
+import moment from 'moment'
 import IconButton from '@material-ui/core/IconButton';
 
 import AddPhotoAlternate from '@material-ui/icons/AddPhotoAlternate'
@@ -10,6 +11,9 @@ import Header from './header'
 import { connect } from 'react-redux'
 import { withRouter } from "react-router";
 import { showDraftsService } from '../../services/drafts'
+import { getQiNiuTokenService } from '../../services/util'
+import * as qiniu from 'qiniu-js'
+
 const initialSource = `
 
 `
@@ -64,21 +68,54 @@ const footerStyles = (theme) => createStyles({
     },
     input: {
         display: 'none',
+        // opacity: 0
     },
 })
-const EditorFooter = (props) => {
-    const { classes } = props;
-    return (
-        <div className={ props.classes.footer }>
-            <input accept="image/*" className={ classes.input } id="icon-button-file" 
-             type="file" />
-            <label htmlFor="icon-button-file">
-                {/* <IconButton  component="span"> */ }
-                <AddPhotoAlternate className={ classes.button } />
-                {/* </IconButton> */ }
-            </label>
-        </div>
-    )
+@connect(state => state)
+class EditorFooter extends React.Component {
+    updateFile = async (e) => {
+        if (!this.refs.updateImg.files.length) return false
+        const file = this.refs.updateImg.files[0]
+        const { pathname } = window.location
+        // '/drafts/123123'.split('/') ==> ["", "drafts", "123123"]
+        const id = pathname.split('/')[2]
+        const token = await getQiNiuTokenService()
+        const time = moment().format('YYYY-MM-DD-HH-mm-ss')
+        const uid = `${id}-${time}-${file.name}`
+        const observable = qiniu.upload(file, uid, token.data, {}, {})
+        const that = this
+         observable.subscribe({
+            next (res) {
+                // res 参数是一个带有 total 字段的 object，包含loaded、total、percent三个属性，提供上传进度信息。
+                console.log('正在上传', res)
+            },
+            error (err) {
+                console.log('上传失败', err)
+            },
+            complete (res) {
+                console.log('上传complete', res)
+                that.props.draft.editorRef.replaceSelection(`\n![](http://pksfq8iq8.bkt.clouddn.com/${uid})`)
+            }
+        })
+
+
+    }
+
+    render () {
+        const { classes } = this.props
+
+        return (
+            <div className={ classes.footer }>
+                <input ref="updateImg" accept="image/*" onChange={ this.updateFile } className={ classes.input } id="icon-button-file"
+                    type="file" />
+                <label htmlFor="icon-button-file">
+                    {/* <IconButton  component="span"> */ }
+                    <AddPhotoAlternate className={ classes.button } />
+                    {/* </IconButton> */ }
+                </label>
+            </div>
+        )
+    }
 }
 const EditorFooterWrapper = withStyles(footerStyles)(EditorFooter)
 @withRouter
@@ -93,6 +130,8 @@ class Draft extends React.PureComponent {
             title: ''
         }
     }
+
+
     changeTitle = async (title) => {
         console.log(title, '传入的title')
         // await this.setState({
@@ -103,6 +142,9 @@ class Draft extends React.PureComponent {
             this.updateDrafts()
         })
     }
+
+
+
     updateDrafts = () => {
         const { pathname } = window.location
         const { title, markdownSrc } = this.state
@@ -129,6 +171,7 @@ class Draft extends React.PureComponent {
         }
     }
     handleMarkdownChange (evt) {
+        console.log(evt.target.value)
         this.setState({ markdownSrc: evt.target.value })
         this.updateDrafts()
     }

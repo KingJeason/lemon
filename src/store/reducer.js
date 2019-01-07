@@ -9,7 +9,8 @@ const sagaMiddleware = createSagaMiddleware()
 
 const userState = null
 const draftState = {
-    isRequesting: false
+    isRequesting: false,
+    editorRef: null
 }
 function user (state = userState, action) {
     switch (action.type) {
@@ -26,8 +27,15 @@ function draft (state = draftState, action) {
                 ...state,
                 isRequesting: action.data
             }
+            // break;
+        case 'SET_DRAFT_EDITOR_REF':
+            return {
+                ...state,
+                editorRef: action.data
+            }
+            // break;
         default:
-        return state
+            return state
     }
 }
 

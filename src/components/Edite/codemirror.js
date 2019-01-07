@@ -2,6 +2,8 @@
 // const PropTypes = require('prop-types')
 import React from 'react';
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+
 const CodeMirror = window.CodeMirror
 
 // adapted from:
@@ -19,7 +21,7 @@ const IS_MOBILE = typeof navigator === 'undefined' || (
     || navigator.userAgent.match(/BlackBerry/i)
     || navigator.userAgent.match(/Windows Phone/i)
 )
-
+@connect(state => state)
 class CodeMirrorEditor extends React.Component {
   constructor(props) {
     super(props)
@@ -32,6 +34,10 @@ class CodeMirrorEditor extends React.Component {
     const isTextArea = this.props.forceTextArea || IS_MOBILE;
     if (!isTextArea) {
       this.editor = CodeMirror.fromTextArea(this.editorRef.current, this.props);
+      this.props.dispatch({
+        type: 'SET_DRAFT_EDITOR_REF',
+        data: this.editor
+      })
       this.editor.on('change', this.handleChange);
     }
   }
@@ -49,6 +55,7 @@ class CodeMirrorEditor extends React.Component {
   }
 
   handleChange() {
+    
     if (!this.editor) {
       return
     }
