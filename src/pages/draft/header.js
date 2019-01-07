@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+
 import { createStyles, withStyles } from '@material-ui/core/styles';
 // import { visible } from 'ansi-colors';
 
@@ -50,7 +51,7 @@ class DraftHeader extends React.Component {
         this.props.changeTitle(e.target.value)
     }
     render () {
-        const { classes, isRequesting } = this.props;
+        const { classes, isRequesting, publish } = this.props;
         return (
             <div className={ classes.header }>
                 {/* <div className={ classes.leftbox }> */ }
@@ -63,7 +64,7 @@ class DraftHeader extends React.Component {
                     <Button variant="outlined" className={ classes.button }>
                         草稿箱
                     </Button>
-                    <Button variant="contained" color="primary" className={ classes.go }>
+                    <Button variant="contained" color="primary" className={ classes.go } onClick={ publish}>
                         发布
                      </Button>
                 </div>

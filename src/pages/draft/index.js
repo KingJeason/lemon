@@ -4,8 +4,9 @@ import Editor from '../../components/Edite/editor'
 import CodeBlock from '../../components/Edite/code-block'
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import moment from 'moment'
-import IconButton from '@material-ui/core/IconButton';
+import PublishDialog from './publishDialog'
 
+import IconButton from '@material-ui/core/IconButton';
 import AddPhotoAlternate from '@material-ui/icons/AddPhotoAlternate'
 import Header from './header'
 import { connect } from 'react-redux'
@@ -84,7 +85,7 @@ class EditorFooter extends React.Component {
         const uid = `${id}-${time}-${file.name}`
         const observable = qiniu.upload(file, uid, token.data, {}, {})
         const that = this
-         observable.subscribe({
+        observable.subscribe({
             next (res) {
                 // res 参数是一个带有 total 字段的 object，包含loaded、total、percent三个属性，提供上传进度信息。
                 console.log('正在上传', res)
@@ -127,7 +128,10 @@ class Draft extends React.PureComponent {
         this.state = {
             markdownSrc: initialSource,
             htmlMode: 'raw',
-            title: ''
+            title: '',
+            open: false,
+            classifies: ['前端', '后端', '算法', '工具'],
+            classify: '前端'
         }
     }
 
@@ -170,11 +174,13 @@ class Draft extends React.PureComponent {
             })
         }
     }
+
     handleMarkdownChange (evt) {
         console.log(evt.target.value)
         this.setState({ markdownSrc: evt.target.value })
         this.updateDrafts()
     }
+
     async componentDidMount () {
         const { match: { params } } = this.props
         if (params.id !== 'new') {
@@ -186,12 +192,41 @@ class Draft extends React.PureComponent {
             })
         }
     }
+
+    openPublish = () => {
+        this.setState({
+            open: true
+        })
+    }
+
+    closeDialog = () => {
+        this.setState({
+            open: false
+        })
+    }
+
+    publish = () => {
+        this.setState({
+            open: false
+        })
+        console.log('发布了')
+    }
+    setClassify = (index) => {
+        const { classifies } = this.state
+        console.log(index)
+        this.setState({
+            classify: classifies[index]
+        })
+    }
+
     render () {
         const { isRequesting } = this.props.draft
-
+        const { open } = this.state
+        const { classifies, classify } = this.state
+        console.log(classify, 'ss')
         return (
             <div className="draft">
-                <Header title={ this.state.title } isRequesting={ isRequesting } changeTitle={ this.changeTitle } />
+                <Header publish={ this.openPublish } title={ this.state.title } isRequesting={ isRequesting } changeTitle={ this.changeTitle } />
                 <div className="editor-pane">
                     <Editor value={ this.state.markdownSrc } onChange={ this.handleMarkdownChange } />
                     <EditorFooterWrapper />
@@ -205,6 +240,7 @@ class Draft extends React.PureComponent {
                     />
                     <EditorFooterWrapper />
                 </div>
+                <PublishDialog changeClassify={ this.setClassify } classify={ classify } classifies={ classifies } open={ open } close={ this.closeDialog } ok={ this.publish } />
             </div>
         )
     }
