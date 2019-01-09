@@ -39,3 +39,7 @@ export const theme = {
         }
     }
 }
+
+export const qiniuConfig = {
+    baseUrl: 'http://pksfq8iq8.bkt.clouddn.com'
+}

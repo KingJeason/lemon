@@ -128,7 +128,7 @@ class Draft extends React.PureComponent {
             htmlMode: 'raw',
             title: '',
             open: false,
-            classifies: ['阅读','前端', '后端', '算法', '工具'],
+            classifies: ['阅读', '前端', '后端', '算法', '工具'],
             classify: '前端',
             previewImage: '',
         }
@@ -185,11 +185,11 @@ class Draft extends React.PureComponent {
         const { match: { params } } = this.props
         if (params.id !== 'new') {
             const res = await showDraftsService(params.id)
-            const { markdown, title, previewImage, classify  } = res.data
+            const { markdown, title, previewImage, classify } = res.data
             this.setState({
                 markdownSrc: markdown,
-                title, 
-                classify, 
+                title,
+                classify,
                 previewImage
             })
         }
@@ -217,8 +217,20 @@ class Draft extends React.PureComponent {
         this.setState({
             classify
         })
+        this.updateDrafts()
     }
 
+    setPreviewImage = (url) =>{
+        // this.props.setImg url为 e
+        // this.props.setImg('www.baidu.com') url为 'www.baidu.com'
+        url = typeof url === 'string' ? url : ''
+        this.setState({
+            previewImage: url
+        })
+        this.updateDrafts()
+    }
+
+   
     render () {
         const { isRequesting } = this.props.draft
         const { open } = this.state
@@ -240,7 +252,9 @@ class Draft extends React.PureComponent {
                     />
                     <EditorFooterWrapper />
                 </div>
-                <PublishDialog previewImage={ previewImage} changeClassify={ this.setClassify } classify={ classify } classifies={ classifies } open={ open } close={ this.closeDialog } ok={ this.publish } />
+                <PublishDialog
+                    setImg={ this.setPreviewImage}
+                    previewImage={ previewImage } changeClassify={ this.setClassify } classify={ classify } classifies={ classifies } open={ open } close={ this.closeDialog } ok={ this.publish } />
             </div>
         )
     }
