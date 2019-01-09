@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStyles, withStyles } from '@material-ui/core/styles';
-import { BrowserRouter as Switch, Route, Link, Router } from "react-router-dom";
+import {  Route } from "react-router-dom";
 
 import Header from './Header'
 const styles = theme => createStyles({

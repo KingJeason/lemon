@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 
 const styles = theme => createStyles({
     layout: {

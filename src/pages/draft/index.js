@@ -6,7 +6,7 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import moment from 'moment'
 import PublishDialog from './publishDialog'
 
-import IconButton from '@material-ui/core/IconButton';
+// import IconButton from '@material-ui/core/IconButton';
 import AddPhotoAlternate from '@material-ui/icons/AddPhotoAlternate'
 import Header from './header'
 import { connect } from 'react-redux'
@@ -98,8 +98,6 @@ class EditorFooter extends React.Component {
                 that.props.draft.editorRef.replaceSelection(`\n![](http://pksfq8iq8.bkt.clouddn.com/${uid})`)
             }
         })
-
-
     }
 
     render () {
@@ -130,8 +128,9 @@ class Draft extends React.PureComponent {
             htmlMode: 'raw',
             title: '',
             open: false,
-            classifies: ['前端', '后端', '算法', '工具'],
-            classify: '前端'
+            classifies: ['阅读','前端', '后端', '算法', '工具'],
+            classify: '前端',
+            previewImage: '',
         }
     }
 
@@ -151,14 +150,15 @@ class Draft extends React.PureComponent {
 
     updateDrafts = () => {
         const { pathname } = window.location
-        const { title, markdownSrc } = this.state
+        const { title, markdownSrc, classify, previewImage } = this.state
         // '/drafts/123123'.split('/') ==> ["", "drafts", "123123"]
         const id = pathname.split('/')[2]
         const body = {
             markdown: markdownSrc,
-            previewImage: '',
+            previewImage,
             type: 'markdown',
             title,
+            classify,
         }
         if (id !== 'new') {
             this.props.dispatch({
@@ -185,10 +185,12 @@ class Draft extends React.PureComponent {
         const { match: { params } } = this.props
         if (params.id !== 'new') {
             const res = await showDraftsService(params.id)
-            const { markdown, title } = res.data
+            const { markdown, title, previewImage, classify  } = res.data
             this.setState({
                 markdownSrc: markdown,
-                title
+                title, 
+                classify, 
+                previewImage
             })
         }
     }
@@ -211,18 +213,16 @@ class Draft extends React.PureComponent {
         })
         console.log('发布了')
     }
-    setClassify = (index) => {
-        const { classifies } = this.state
-        console.log(index)
+    setClassify = (classify) => {
         this.setState({
-            classify: classifies[index]
+            classify
         })
     }
 
     render () {
         const { isRequesting } = this.props.draft
         const { open } = this.state
-        const { classifies, classify } = this.state
+        const { classifies, classify, previewImage } = this.state
         console.log(classify, 'ss')
         return (
             <div className="draft">
@@ -240,7 +240,7 @@ class Draft extends React.PureComponent {
                     />
                     <EditorFooterWrapper />
                 </div>
-                <PublishDialog changeClassify={ this.setClassify } classify={ classify } classifies={ classifies } open={ open } close={ this.closeDialog } ok={ this.publish } />
+                <PublishDialog previewImage={ previewImage} changeClassify={ this.setClassify } classify={ classify } classifies={ classifies } open={ open } close={ this.closeDialog } ok={ this.publish } />
             </div>
         )
     }

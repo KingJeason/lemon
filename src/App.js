@@ -6,7 +6,7 @@ import DraftList from './pages/draft-list/index'
 import { Provider } from 'react-redux'
 import Cookies from 'js-cookie'
 import store from './store/reducer'
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import {  Route, Switch, Redirect } from "react-router-dom";
 import { withRouter } from "react-router";
 
 @withRouter

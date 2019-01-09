@@ -14,10 +14,10 @@ import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/AddCircle';
 import Toolbar from '@material-ui/core/Toolbar';
 import Nav from './nav'
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import Grid from '@material-ui/core/Grid';
-import { appName } from '../config';
+// import Grid from '@material-ui/core/Grid';
+// import { appName } from '../config';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 // import { login } from '../services/api';
