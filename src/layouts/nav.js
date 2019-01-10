@@ -24,7 +24,7 @@ const styles = theme => createStyles({
     }
 })
 
-export const navList = [{ name: 'home', path: '/' }, { name: 'Chat', path: '/chat' }, { name: 'Life', path: '/life' }, { name: 'Photo', path: '/photo' }];
+export const navList = [{ name: 'Home', path: '/' }, { name: 'Chat', path: '/chat' }, { name: 'Life', path: '/life' }, { name: 'Photo', path: '/photo' }];
 
 class Nav extends React.Component {
     render () {

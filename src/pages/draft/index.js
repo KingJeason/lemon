@@ -131,6 +131,7 @@ class Draft extends React.PureComponent {
             classifies: ['阅读', '前端', '后端', '算法', '工具'],
             classify: '前端',
             previewImage: '',
+            isPublish: false
         }
     }
 
@@ -150,7 +151,7 @@ class Draft extends React.PureComponent {
 
     updateDrafts = () => {
         const { pathname } = window.location
-        const { title, markdownSrc, classify, previewImage } = this.state
+        const { title, markdownSrc, classify, previewImage, isPublish } = this.state
         // '/drafts/123123'.split('/') ==> ["", "drafts", "123123"]
         const id = pathname.split('/')[2]
         const body = {
@@ -159,6 +160,7 @@ class Draft extends React.PureComponent {
             type: 'markdown',
             title,
             classify,
+            isPublish
         }
         if (id !== 'new') {
             this.props.dispatch({
@@ -175,6 +177,7 @@ class Draft extends React.PureComponent {
         }
     }
 
+
     handleMarkdownChange (evt) {
         console.log(evt.target.value)
         this.setState({ markdownSrc: evt.target.value })
@@ -185,12 +188,13 @@ class Draft extends React.PureComponent {
         const { match: { params } } = this.props
         if (params.id !== 'new') {
             const res = await showDraftsService(params.id)
-            const { markdown, title, previewImage, classify } = res.data
+            const { markdown, title, previewImage, classify, isPublish } = res.data
             this.setState({
                 markdownSrc: markdown,
                 title,
                 classify,
-                previewImage
+                previewImage,
+                isPublish
             })
         }
     }
@@ -207,10 +211,15 @@ class Draft extends React.PureComponent {
         })
     }
 
-    publish = () => {
+    publish = async () => {
         this.setState({
-            open: false
-        })
+                ...this.state,
+                open: false,
+                isPublish: true
+            }, () => {
+                this.updateDrafts()
+            })
+        await this.updateDrafts()
         console.log('发布了')
     }
     setClassify = (classify) => {
@@ -220,7 +229,7 @@ class Draft extends React.PureComponent {
         this.updateDrafts()
     }
 
-    setPreviewImage = (url) =>{
+    setPreviewImage = (url) => {
         // this.props.setImg url为 e
         // this.props.setImg('www.baidu.com') url为 'www.baidu.com'
         url = typeof url === 'string' ? url : ''
@@ -230,7 +239,7 @@ class Draft extends React.PureComponent {
         this.updateDrafts()
     }
 
-   
+
     render () {
         const { isRequesting } = this.props.draft
         const { open } = this.state
@@ -253,7 +262,7 @@ class Draft extends React.PureComponent {
                     <EditorFooterWrapper />
                 </div>
                 <PublishDialog
-                    setImg={ this.setPreviewImage}
+                    setImg={ this.setPreviewImage }
                     previewImage={ previewImage } changeClassify={ this.setClassify } classify={ classify } classifies={ classifies } open={ open } close={ this.closeDialog } ok={ this.publish } />
             </div>
         )

@@ -25,9 +25,11 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import Login from '../components/login'
 import { connect } from 'react-redux'
 import lemonPng from '../assets/imgs/lemon.png'
+import { withRouter } from "react-router";
+
 // import { addTodo } from '../store/actions'
 const styles = (theme) => createStyles({
-    header:{
+    header: {
         // boxShadow: '0 4px 12px 0 rgba(0, 0, 0, 0.05)'
     },
     root: {
@@ -127,7 +129,7 @@ const styles = (theme) => createStyles({
     },
 })
 
-
+@withRouter
 class Header extends React.Component {
     state = {
         anchorEl: null,
@@ -162,6 +164,10 @@ class Header extends React.Component {
         //     type: 'GET_USER'
         // })
     };
+
+    routerToHome = () => {
+        this.props.history.push('')
+    }
 
     handleClose = () => {
         this.setState({ open: false });
@@ -273,14 +279,14 @@ class Header extends React.Component {
             <React.Fragment>
                 <div className={ classes.root }>
                     {/* <AppBar position="static" color="default"> */ }
-                    <Toolbar className={classes.header}>
+                    <Toolbar className={ classes.header }>
                         {/* <IconButton className={ classes.menuButton } color="inherit" aria-label="Open drawer">
                             <MenuIcon />
                         </IconButton> */}
                         {/* <Typography className={ classes.title } variant="h6" color="inherit" noWrap={ true }>
                             { appName }
                         </Typography> */}
-                        <img src={ lemonPng } alt="lemon" style={{width: '120px'}}/>
+                        <img onClick={ this.routerToHome } src={ lemonPng } alt="lemon" style={ { width: '120px', cursor: 'pointer' } } />
                         <div className={ classes.grow } />
                         <div className={ classes.add }>
                             <div className={ classes.searchIcon }>
@@ -327,7 +333,7 @@ class Header extends React.Component {
                         </div>
                     </Toolbar>
                     {/* </AppBar>  */ }
-                    { isNav ? <Nav /> : ''}
+                    { isNav ? <Nav /> : '' }
                     { renderMenu }
                     { renderMobileMenu }
                     { renderLoginModal }

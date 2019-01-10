@@ -43,7 +43,7 @@ class BasicLayout extends React.Component {
         return (
             <React.Fragment>
                 <div className={ classes.layout }>
-                    <Header />
+                    <Header  isNav={true}/>
                     <Route path="/" exact  component={ Home } />
                     <Route path="/chat" exact component={ About } />
                     <Route path="/life" exact component={ About } />
