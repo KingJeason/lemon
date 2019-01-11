@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import {  Route } from "react-router-dom";
-
+import Home from '../pages/home/index'
 import Header from './Header'
 const styles = theme => createStyles({
     layout: {
@@ -25,13 +25,6 @@ class BasicLayout extends React.Component {
 
     render () {
         const { classes } = this.props;
-        function Home () {
-            return (
-                <div>
-                    <h2>Home</h2>
-                </div>
-            );
-        }
 
         function About () {
             return (

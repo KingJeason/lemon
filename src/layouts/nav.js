@@ -36,6 +36,6 @@ class Nav extends React.Component {
                 </nav>
             </Toolbar>
         )
-    }
+    } 
 }
 export default withStyles(styles)(Nav)
