@@ -40,8 +40,8 @@ const LeftOrRightStyle = (theme) => createStyles({
 const LeftOrRightGrid = (props) => (
     <List className={ props.classes.root }>
         <ListItem alignItems='flex-start' className={ props.classes.wapper }>
-            <div style={ { height: 150, width: '100%' } }>
-                <img style={ { width: '100%', height: '100%' } } alt="img" src="https://img.zcool.cn/community/01018d5c374e94a80121fbb0446c17.jpg@1280w_1l_2o_100sh.jpg"></img>
+            <div style={ { width: '100%' } }>
+                {/* <img style={ { width: '100%', height: '100%' } } alt="img" src="https://img.zcool.cn/community/01018d5c374e94a80121fbb0446c17.jpg@1280w_1l_2o_100sh.jpg"></img> */}
                 <Typography variant="h6" gutterBottom className={ props.classes.title }>
                     A Linguist’s Guide to Pronouncing ‘GIF’
                 </Typography>

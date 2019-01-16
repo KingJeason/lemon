@@ -1,7 +1,7 @@
 import React from 'react';
 import Featured from './featured'
 import Divider from '@material-ui/core/Divider';
-
+import Feed from './feed'
 import { createStyles, withStyles } from '@material-ui/core/styles';
 const styles = (theme) => createStyles({
 });
@@ -22,6 +22,7 @@ class Home extends React.PureComponent {
             <div>
                 <Featured />
                 <Divider />
+                <Feed />
             </div>
 
 
